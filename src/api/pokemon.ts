@@ -11,7 +11,7 @@ export type PokemonDetail = {
 
 export async function getPokemon(name: string) {
     try {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        const response = await fetch(`${import.meta.env.VITE_POKEMON_API}${name}`);
         const data = await response.json();
         return data;
     } catch (error) {
