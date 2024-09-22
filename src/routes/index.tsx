@@ -25,11 +25,11 @@ function HomePage() {
           alignItems={"center"}
           gap={5}
         >
-          <Image src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbDQ0Yzl6ZWNkZTh0anppOGk3eDMzZmt0ZWtsdHRrMmg0NG1xYzh3aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/ntCOvylMDQ2g8/giphy.gif" w={"300px"} />
-          <Heading>Welcome to Pokedex</Heading>
+          <Image src="/public/gif/pokemon.gif" w={"300px"} />
+          <Heading color={"gray.800"}>Welcome to Pokedex</Heading>
           <Text fontSize={"lg"}>Find your favorite pokemon</Text>
           <Link to="/pokemon">
-            <Button colorScheme="teal">Get Started</Button>
+            <Button colorScheme="gray">Get Started</Button>
           </Link>
         </Flex>
       </Center>

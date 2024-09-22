@@ -1,18 +1,33 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getPokemon } from "../../api/pokemon";
+import { useEffect } from "react"; // Tambahkan useEffect untuk memanggil fetching data
+import { usePokemon } from "../../api/pokemon"; // Import hook untuk fetch data
 import { Button, Card, CardBody, CardFooter, Container, Heading, Image, Stack, Table, TableContainer, Td, Th, Tr } from "@chakra-ui/react";
 
 export const Route = createFileRoute("/pokemon/$name")({
     component: Pokemon,
-    loader: async ({ params }) => await getPokemon(params.name),
 });
 
 function Pokemon() {
     const { name } = Route.useParams();
-    const data = Route.useLoaderData();
+    const { data, fetchPokemon, isLoading } = usePokemon();
+
+    useEffect(() => {
+        if (name) {
+            fetchPokemon(name);
+        }
+    }, [name]);
+
+    if (isLoading) {
+        return <Heading size="lg">Loading...</Heading>;
+    }
+
+    if (!data) {
+        return <Heading size="lg">No data found</Heading>;
+    }
+
     return (
-        <Container maxW="container.md " >
-            <Heading size="lg" p={5}>You are looking for :{name}</Heading>
+        <Container maxW="container.md">
+            <Heading size="lg" p={5}>You are looking for: {name}</Heading>
             <Card p={5}
                 direction={{ base: "column", sm: "row" }}
                 overflow="hidden"
@@ -22,10 +37,11 @@ function Pokemon() {
                     objectFit="cover"
                     boxSize='20em'
                     src={data.sprites.front_default}
+                    alt={data.name}
                 />
-                <Stack >
-                    <CardBody >
-                        <TableContainer maxWidth="300px" >
+                <Stack>
+                    <CardBody>
+                        <TableContainer maxWidth="300px">
                             <Table border={1}>
                                 <Tr>
                                     <Th>Name</Th>
@@ -57,3 +73,5 @@ function Pokemon() {
         </Container>
     );
 }
+
+export default Pokemon;

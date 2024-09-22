@@ -34,13 +34,14 @@ const variants = {
 
 function Pokemon() {
   const [isOpen, setIsOpen] = useState(false);
+  const { data, fetchPokemon, isLoading, error } = usePokemon();
 
-  const { data, fetchPokemon, isLoading } = usePokemon();
 
   const handleSearchSubmit = (search: string) => {
     setIsOpen((isOpen) => !isOpen);
     fetchPokemon(search);
   };
+
 
   return (
     <Container maxW="container.lg">
@@ -51,26 +52,23 @@ function Pokemon() {
         minHeight={"85vh"}
       >
         <Box w="580px" position={"absolute"} top="45%">
-          <motion.div animate={isOpen ? "open" : "closed"} variants={variants}>
-
+          <motion.div animate={isOpen && "open"} variants={variants}>
             <Flex>
               <Heading size="lg" color="gray" mr={2} >
                 Search your favorite Pokémon
               </Heading>
-              <Popover >
+              <Popover  >
                 <PopoverTrigger>
-                  <Button size={"sm"} variant={"outline"} ><Icon as={FiBookOpen} px={1} w={6} h={6} />info pokemon</Button>
+                  <Button size={"sm"} variant={"none"} color={"gray"} ><Icon as={FiBookOpen} px={1} w={6} h={6} />info pokemon</Button>
                 </PopoverTrigger>
                 <PopoverContent>
                   <PopoverArrow />
                   <PopoverCloseButton />
-                  <PopoverHeader>Confirmation!</PopoverHeader>
-                  <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody>
+                  <PopoverHeader>Pokemon list</PopoverHeader>
+                  <PopoverBody>w</PopoverBody>
                 </PopoverContent>
               </Popover>
             </Flex>
-
-
             <SearchForm onSubmit={handleSearchSubmit} />
           </motion.div>
         </Box>{" "}
@@ -83,9 +81,13 @@ function Pokemon() {
               color="blue.500"
               size="xl"
             />
-          ) : (
-            data && <PokemonCard data={data} />
-          )}
+          ) : error ? (
+            <Heading size="lg" color="red.500">
+              Pokemon not found
+            </Heading>
+          ) : data ? (
+            <PokemonCard data={data} />
+          ) : null}
         </Center>
       </Flex>
     </Container>

@@ -1,3 +1,7 @@
+import axios from "axios";
+import { useState } from "react";
+
+// Define PokemonDetail type
 export type PokemonDetail = {
     name: string;
     id: number;
@@ -9,13 +13,30 @@ export type PokemonDetail = {
     };
 };
 
-export async function getPokemon(name: string) {
-    try {
-        const response = await fetch(`${import.meta.env.VITE_POKEMON_API}${name}`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.log(error);
-    }
+// Custom hook to fetch Pokemon data
+export function usePokemon() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [data, setData] = useState<PokemonDetail | null>(null);
+    const [error, setError] = useState<boolean>(false);
 
+
+    const fetchPokemon = async (search: string) => {
+        setIsLoading(true);
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_POKEMON_API}${search}`);
+            setTimeout(() => {
+                setData(response.data);
+                setIsLoading(false);
+            }, 3000);
+        } catch (error) {
+            setTimeout(() => {
+                console.error(error);
+                setError(true);
+                setIsLoading(false);
+            }, 2000)
+
+        }
+    };
+
+    return { data, fetchPokemon, isLoading, error };
 }
