@@ -6,42 +6,60 @@ import {
   Heading,
   Spinner,
   Center,
-  Popover,
-  PopoverTrigger,
   Button,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverHeader,
-  PopoverBody,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { SearchForm } from "../../components/SearchForm";
 import { PokemonCard } from "../../components/PokemonCard";
-import { FiBookOpen } from "react-icons/fi";
-import { Icon } from "@chakra-ui/react";
+
 import { usePokemon } from "../../api/pokemon";
+import axios from "axios";
 
 export const Route = createFileRoute("/pokemon/")({
   component: Pokemon,
 });
 
 const variants = {
-  open: { y: "-350%", transition: { duration: 0.4 } },
-  closed: { y: 0 },
+  move: { y: "-350%", transition: { duration: 0.4 } },
+  stop: { y: 0 },
 };
 
 function Pokemon() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMove, setIsMove] = useState(false);
+  const [name, setName] = useState([]);
   const { data, fetchPokemon, isLoading, error } = usePokemon();
-
-
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const size = "xl"
   const handleSearchSubmit = (search: string) => {
-    setIsOpen((isOpen) => !isOpen);
+    setIsMove((isMove) => !isMove);
     fetchPokemon(search);
   };
 
+  const fetchingDataName = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_POKEMON_API}?limit=100&offset=0`);
+      const data = await response.data;
+      setName(data.results);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchingDataName();
+  }, []);
+  console.log(name);
 
   return (
     <Container maxW="container.lg">
@@ -52,22 +70,32 @@ function Pokemon() {
         minHeight={"85vh"}
       >
         <Box w="580px" position={"absolute"} top="45%">
-          <motion.div animate={isOpen && "open"} variants={variants}>
+          <motion.div animate={isMove && "move"} variants={variants}>
             <Flex>
-              <Heading size="lg" color="gray" mr={2} >
+              <Heading size="lg" color="gray" mr={2}>
                 Search your favorite Pokémon
               </Heading>
-              <Popover  >
-                <PopoverTrigger>
-                  <Button size={"sm"} variant={"none"} color={"gray"} ><Icon as={FiBookOpen} px={1} w={6} h={6} />info pokemon</Button>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <PopoverArrow />
-                  <PopoverCloseButton />
-                  <PopoverHeader>Pokemon list</PopoverHeader>
-                  <PopoverBody>w</PopoverBody>
-                </PopoverContent>
-              </Popover>
+              <Button onClick={onOpen} variant={"outline"} size={"sm"}>Pokemon list</Button>
+              <Modal isOpen={isOpen} onClose={onClose} size={size}>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader>Pokemon list </ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody>
+                    <Text>
+                      {name && name.map((item) => (
+                        <span key={item.name}>{item.name}{", "}</span>
+                      ))}
+                    </Text>
+
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button colorScheme='gray' mr={3} onClick={onClose}>
+                      Close
+                    </Button>
+                  </ModalFooter>
+                </ModalContent>
+              </Modal>
             </Flex>
             <SearchForm onSubmit={handleSearchSubmit} />
           </motion.div>
@@ -90,6 +118,6 @@ function Pokemon() {
           ) : null}
         </Center>
       </Flex>
-    </Container>
+    </Container >
   );
 }
