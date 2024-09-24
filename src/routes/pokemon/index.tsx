@@ -16,12 +16,12 @@ import {
   ModalBody,
   ModalFooter,
   Text,
+  useBreakpointValue, // Tambahkan ini
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { SearchForm } from "../../components/SearchForm";
 import { PokemonCard } from "../../components/PokemonCard";
-
 import { usePokemon } from "../../api/pokemon";
 import axios from "axios";
 
@@ -29,17 +29,25 @@ export const Route = createFileRoute("/pokemon/")({
   component: Pokemon,
 });
 
-const variants = {
-  move: { y: "-350%", transition: { duration: 0.4 } },
-  stop: { y: 0 },
-};
-
 function Pokemon() {
   const [isMove, setIsMove] = useState(false);
   const [name, setName] = useState([]);
   const { data, fetchPokemon, isLoading, error } = usePokemon();
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const size = "xl"
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const size = "xl";
+
+
+  const yValue = useBreakpointValue({
+    base: "-90%",
+    sm: "-100%",
+    xl: "-200%",
+  });
+
+  const variants = {
+    move: { y: yValue, transition: { duration: 0.4 } },
+    stop: { y: 0 },
+  };
+
   const handleSearchSubmit = (search: string) => {
     setIsMove((isMove) => !isMove);
     fetchPokemon(search);
@@ -55,42 +63,45 @@ function Pokemon() {
     }
   };
 
-
   useEffect(() => {
     fetchingDataName();
   }, []);
-  console.log(name);
 
   return (
     <Container maxW="container.lg">
-      <Flex
-        justifyContent="center"
-        alignItems="center"
-        position={"relative"}
-        minHeight={"85vh"}
-      >
-        <Box w="580px" position={"absolute"} top="45%">
+      <Flex justifyContent="center" alignItems="center" position="relative" minHeight="85vh">
+        <Box
+          w={{ base: "360px", xl: "580px" }} // Responsive width
+          position="absolute"
+          top={{ base: "30%", xl: "45%" }} // Responsive positioning
+        >
+          {/* Responsive animasi menggunakan framer motion */}
           <motion.div animate={isMove && "move"} variants={variants}>
             <Flex>
               <Heading size="lg" color="gray" mr={2}>
                 Search your favorite Pokémon
               </Heading>
-              <Button onClick={onOpen} variant={"outline"} size={"sm"}>Pokemon list</Button>
+              <Button onClick={onOpen} variant="outline" size="sm">
+                Pokemon list
+              </Button>
               <Modal isOpen={isOpen} onClose={onClose} size={size}>
                 <ModalOverlay />
                 <ModalContent>
-                  <ModalHeader>Pokemon list </ModalHeader>
+                  <ModalHeader>Pokemon list</ModalHeader>
                   <ModalCloseButton />
                   <ModalBody>
                     <Text>
-                      {name && name.map((item) => (
-                        <span key={item.name}>{item.name}{", "}</span>
-                      ))}
+                      {name &&
+                        name.map((item) => (
+                          <span key={item.name}>
+                            {item.name}
+                            {", "}
+                          </span>
+                        ))}
                     </Text>
-
                   </ModalBody>
                   <ModalFooter>
-                    <Button colorScheme='gray' mr={3} onClick={onClose}>
+                    <Button colorScheme="gray" mr={3} onClick={onClose}>
                       Close
                     </Button>
                   </ModalFooter>
@@ -99,16 +110,10 @@ function Pokemon() {
             </Flex>
             <SearchForm onSubmit={handleSearchSubmit} />
           </motion.div>
-        </Box>{" "}
-        <Center w={"700px"}>
+        </Box>
+        <Center w={{ base: "100%", md: "700px" }}> {/* Responsive width */}
           {isLoading ? (
-            <Spinner
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="blue.500"
-              size="xl"
-            />
+            <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
           ) : error ? (
             <Heading size="lg" color="red.500">
               Pokemon not found
@@ -118,6 +123,6 @@ function Pokemon() {
           ) : null}
         </Center>
       </Flex>
-    </Container >
+    </Container>
   );
 }

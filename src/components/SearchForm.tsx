@@ -28,7 +28,7 @@ export const SearchForm = ({ onSubmit }: SearchFormProps) => {
         >
             {(props) => (
                 <Form>
-                    <Flex pt={4}>
+                    <Flex pt={4} direction={{ base: "column", xl: "row" }}>
                         <Field name="search" validate={validateSearch} >
                             {({ field, form }: FieldProps) => (
                                 <FormControl isInvalid={!!form.errors.search}>
@@ -38,8 +38,9 @@ export const SearchForm = ({ onSubmit }: SearchFormProps) => {
                             )}
                         </Field>
                         <Button
-                            ml={4}
-                            py={2}
+                            mt={{ base: 4, xl: 0 }}
+                            ml={{ base: 0, xl: 4 }}
+
                             colorScheme="gray"
                             variant="outline"
                             width="200px"

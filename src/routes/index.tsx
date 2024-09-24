@@ -18,14 +18,14 @@ function HomePage() {
 
   return (
     <Container maxW={"container.sm"}>
-      <Center h={"800px"} >
+      <Center h={{ base: "550px", lg: "800px" }} >
         <Flex
           direction={"column"}
           justifyContent={"center"}
           alignItems={"center"}
-          gap={5}
+          gap={2}
         >
-          <Image src="/public/gif/pokemon.gif" w={"300px"} />
+          <Image src="/public/image/pikachu.png" w={{ base: "200px", lg: "300px" }} />
           <Heading color={"gray.800"}>Welcome to Pokedex</Heading>
           <Text fontSize={"lg"}>Find your favorite pokemon</Text>
           <Link to="/pokemon">
