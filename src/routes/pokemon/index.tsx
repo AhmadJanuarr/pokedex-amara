@@ -31,7 +31,7 @@ export const Route = createFileRoute("/pokemon/")({
 
 function Pokemon() {
   const [isMove, setIsMove] = useState(false);
-  const [name, setName] = useState([]);
+  const [name, setName] = useState<{ name: string }[]>([]);
   const { data, fetchPokemon, isLoading, error } = usePokemon();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const size = "xl";

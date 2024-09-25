@@ -10,7 +10,7 @@ interface SearchFormProps {
 
 export const SearchForm = ({ onSubmit }: SearchFormProps) => {
 
-    const inputRef: React.MutableRefObject<HTMLInputElement | undefined> = useRef()
+    const inputRef: React.RefObject<HTMLInputElement> = useRef(null);
     const initialValues = { search: "" };
 
     useEffect(() => {
