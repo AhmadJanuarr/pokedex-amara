@@ -33,7 +33,7 @@ export function usePokemon() {
                 console.error(error);
                 setError(true);
                 setIsLoading(false);
-            }, 2000)
+            }, 3000)
 
         }
     };
