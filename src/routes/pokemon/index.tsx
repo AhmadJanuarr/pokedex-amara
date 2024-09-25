@@ -111,7 +111,7 @@ function Pokemon() {
             <SearchForm onSubmit={handleSearchSubmit} />
           </motion.div>
         </Box>
-        <Center w={{ base: "100%", md: "700px" }} pt={{ base: "70%", md: "0" }}> {/* Responsive width */}
+        <Center w={{ base: "100%" }} pt={{ base: "70%", xl: "20%" }}> {/* Responsive width */}
           {isLoading ? (
             <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
           ) : error ? (

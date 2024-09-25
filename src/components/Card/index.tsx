@@ -1,9 +1,10 @@
 import { CardBody, Heading, Image, Stack, Card, CardFooter, Button, Divider, Text } from "@chakra-ui/react";
 import { PokemonDetail } from "../../api/pokemon";
+import { Link } from '@tanstack/react-router';
 
 export function CardPokemon({ id, sprites, name, height, weight, base_experience }: PokemonDetail) {
     return (
-        <Card id={id.toString()} >
+        <Card id={id.toString()} variant={"outline"}>
             <CardBody display='flex' justifyContent='center' flexDirection={"column"}>
                 <Image
                     src={sprites.front_default}
@@ -25,10 +26,12 @@ export function CardPokemon({ id, sprites, name, height, weight, base_experience
             </CardBody>
             <Divider />
             <CardFooter>
+                <Link to={`/pokemon/${name}`}>
+                    <Button variant='solid' colorScheme='teal'>
+                        Check details
+                    </Button>
+                </Link>
 
-                <Button variant='solid' colorScheme='teal'>
-                    Check details
-                </Button>
             </CardFooter>
         </Card>
     )
