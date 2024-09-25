@@ -25,7 +25,7 @@ function HomePage() {
           alignItems={"center"}
           gap={2}
         >
-          <Image src="/public/image/pikachu.png" w={{ base: "200px", lg: "300px" }} />
+          <Image src="/image/pikachu.png" w={{ base: "200px", lg: "300px" }} />
           <Heading color={"gray.800"}>Welcome to Pokedex</Heading>
           <Text fontSize={"lg"}>Find your favorite pokemon</Text>
           <Link to="/pokemon">
