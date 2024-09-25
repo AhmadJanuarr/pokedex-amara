@@ -1,7 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { usePokemon } from "../../api/pokemon";
-import { Button, Card, CardBody, CardFooter, Container, Heading, Image, Stack, Table, TableContainer, Td, Th, Tr } from "@chakra-ui/react";
+import { Link } from "@tanstack/react-router";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    Button,
+    Card,
+    CardBody,
+    CardFooter,
+    Center,
+    Container,
+    Heading,
+    Image,
+    Spinner,
+    Stack,
+    Table,
+    TableContainer,
+    Td,
+    Th,
+    Tr,
+} from "@chakra-ui/react";
 
 export const Route = createFileRoute("/pokemon/$name")({
     component: Pokemon,
@@ -18,7 +38,17 @@ function Pokemon() {
     }, [name]);
 
     if (isLoading) {
-        return <Heading size="lg">Loading...</Heading>;
+        return (
+            <Center w={{ base: "100%" }} pt={{ base: "70%", xl: "20%" }}>
+                <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="xl"
+                />
+            </Center>
+        );
     }
 
     if (!data) {
@@ -27,15 +57,33 @@ function Pokemon() {
 
     return (
         <Container maxW="container.md">
-            <Heading size="lg" p={5}>You are looking for: {name}</Heading>
-            <Card p={5}
+            <Heading size="lg" py={5}>
+                You are looking for: {name}
+            </Heading>
+            <Breadcrumb py={5}>
+                <BreadcrumbItem>
+                    <Link to="/">
+                        <BreadcrumbLink>home</BreadcrumbLink>
+                    </Link>
+                </BreadcrumbItem>
+                <BreadcrumbItem>
+                    <Link to="/pokemon">
+                        <BreadcrumbLink href="#">pokemon</BreadcrumbLink>
+                    </Link>
+                </BreadcrumbItem>
+                <BreadcrumbItem isCurrentPage>
+                    <BreadcrumbLink href="#">{name}</BreadcrumbLink>
+                </BreadcrumbItem>
+            </Breadcrumb>
+            <Card
+                p={5}
                 direction={{ base: "column", sm: "row" }}
                 overflow="hidden"
                 variant="outline"
             >
                 <Image
                     objectFit="cover"
-                    boxSize='20em'
+                    boxSize="20em"
                     src={data.sprites.front_default}
                     alt={data.name}
                 />
