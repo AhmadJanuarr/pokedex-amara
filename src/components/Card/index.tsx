@@ -3,16 +3,16 @@ import { PokemonDetail } from "../../api/pokemon";
 
 export function CardPokemon({ id, sprites, name, height, weight, base_experience }: PokemonDetail) {
     return (
-        <Card id={id.toString()} align='center' variant={"outline"}>
-            <CardBody>
+        <Card id={id.toString()} >
+            <CardBody display='flex' justifyContent='center' flexDirection={"column"}>
                 <Image
                     src={sprites.front_default}
-                    w='200px' h='200px' border={"1px"}
+                    w='200px' h='200px' alignSelf={"center"}
                 />
                 <Stack mt='6' spacing='3'>
                     <Heading size='md'> Pokemon name : {name}</Heading>
 
-                    <Text color='teal'>
+                    <Text>
                         Height : {height}
                     </Text>
                     <Text>

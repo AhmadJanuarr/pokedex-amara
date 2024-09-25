@@ -8,7 +8,7 @@ interface PokemonCardProps {
 
 export const PokemonCard = ({ data }: PokemonCardProps) => {
     return (
-        <Box key={data.id} w={"32em"} >
+        <Box key={data.id} w={{ base: "100%", md: "50%", lg: "33%" }} >
             <CardPokemon
                 id={data.id}
                 sprites={data.sprites}

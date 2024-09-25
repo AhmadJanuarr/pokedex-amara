@@ -38,9 +38,9 @@ function Pokemon() {
 
 
   const yValue = useBreakpointValue({
-    base: "-90%",
-    sm: "-100%",
-    xl: "-200%",
+    base: "-100%",
+    md: "-200%",
+    xl: "-300%",
   });
 
   const variants = {
@@ -111,7 +111,7 @@ function Pokemon() {
             <SearchForm onSubmit={handleSearchSubmit} />
           </motion.div>
         </Box>
-        <Center w={{ base: "100%", md: "700px" }}> {/* Responsive width */}
+        <Center w={{ base: "100%", md: "700px" }} pt={{ base: "70%", md: "0" }}> {/* Responsive width */}
           {isLoading ? (
             <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
           ) : error ? (

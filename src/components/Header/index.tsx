@@ -18,7 +18,7 @@ import { Link as RouterLink } from "@tanstack/react-router";
 export function Header() {
     const { colorMode, toggleColorMode } = useColorMode();
     return (
-        <Box px={4}>
+        <Box >
             <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
                 <Heading fontSize={"xl"}>
                     <RouterLink to="/">Pokedex amara </RouterLink>

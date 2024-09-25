@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react"; // Tambahkan useEffect untuk memanggil fetching data
-import { usePokemon } from "../../api/pokemon"; // Import hook untuk fetch data
+import { useEffect } from "react";
+import { usePokemon } from "../../api/pokemon";
 import { Button, Card, CardBody, CardFooter, Container, Heading, Image, Stack, Table, TableContainer, Td, Th, Tr } from "@chakra-ui/react";
 
 export const Route = createFileRoute("/pokemon/$name")({
